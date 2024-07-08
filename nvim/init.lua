@@ -48,6 +48,9 @@ opt.scrolloff = 999
 -- Preview substitutions live
 opt.inccommand = 'split'
 
+-- Set mouse scroll speed
+opt.mousescroll = 'ver:1,hor:1'
+
 -- Configure Neovim diagnostic messages
 
 local function prefix_diagnostic(prefix, diagnostic)

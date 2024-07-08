@@ -3,201 +3,171 @@ if vim.g.did_load_keymaps_plugin then
 end
 vim.g.did_load_keymaps_plugin = true
 
-local api = vim.api
-local fn = vim.fn
 local keymap = vim.keymap
 local diagnostic = vim.diagnostic
 
--- Yank from current position till end of current line
--- keymap.set('n', 'Y', 'y$', { silent = true, desc = '[Y]ank to end of line' })
+local function bufremove(buf)
+  buf = buf or 0
+  buf = buf == 0 and vim.api.nvim_get_current_buf() or buf
 
--- Buffer list navigation
-keymap.set('n', '[b', vim.cmd.bprevious, { silent = true, desc = 'previous [b]uffer' })
-keymap.set('n', ']b', vim.cmd.bnext, { silent = true, desc = 'next [b]uffer' })
-keymap.set('n', '[B', vim.cmd.bfirst, { silent = true, desc = 'first [B]uffer' })
-keymap.set('n', ']B', vim.cmd.blast, { silent = true, desc = 'last [B]uffer' })
-
--- Toggle the quickfix list (only opens if it is populated)
-local function toggle_qf_list()
-  local qf_exists = false
-  for _, win in pairs(fn.getwininfo() or {}) do
-    if win['quickfix'] == 1 then
-      qf_exists = true
+  if vim.bo.modified then
+    local choice = vim.fn.confirm(("Save changes to %q?"):format(vim.fn.bufname()), "&Yes\n&No\n&Cancel")
+    if choice == 0 or choice == 3 then -- 0 for <Esc>/<C-c> and 3 for Cancel
+      return
+    end
+    if choice == 1 then -- Yes
+      vim.cmd.write()
     end
   end
-  if qf_exists == true then
-    vim.cmd.cclose()
-    return
+
+  for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+    vim.api.nvim_win_call(win, function()
+      if not vim.api.nvim_win_is_valid(win) or vim.api.nvim_win_get_buf(win) ~= buf then
+        return
+      end
+      -- Try using alternate buffer
+      local alt = vim.fn.bufnr("#")
+      if alt ~= buf and vim.fn.buflisted(alt) == 1 then
+        vim.api.nvim_win_set_buf(win, alt)
+        return
+      end
+
+      -- Try using previous buffer
+      local has_previous = pcall(vim.cmd, "bprevious")
+      if has_previous and buf ~= vim.api.nvim_win_get_buf(win) then
+        return
+      end
+
+      -- Create new listed buffer
+      local new_buf = vim.api.nvim_create_buf(true, false)
+      vim.api.nvim_win_set_buf(win, new_buf)
+    end)
   end
-  if not vim.tbl_isempty(vim.fn.getqflist()) then
-    vim.cmd.copen()
+  if vim.api.nvim_buf_is_valid(buf) then
+    pcall(vim.cmd, "bdelete! " .. buf)
   end
 end
 
-keymap.set('n', '<C-c>', toggle_qf_list, { desc = 'toggle quickfix list' })
+-- better up/down
+keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-local function try_fallback_notify(opts)
-  local success, _ = pcall(opts.try)
-  if success then
-    return
-  end
-  success, _ = pcall(opts.fallback)
-  if success then
-    return
-  end
-  vim.notify(opts.notify, vim.log.levels.INFO)
-end
+-- Buffer list navigation
+keymap.set('n', '<S-h>', vim.cmd.bprevious, { silent = true, desc = 'Previous Buffer' })
+keymap.set('n', '<S-l>', vim.cmd.bnext, { silent = true, desc = 'Next Buffer' })
+keymap.set("n", "<leader>bd", bufremove, { desc = "Delete Buffer" })
 
--- Cycle the quickfix and location lists
-local function cleft()
-  try_fallback_notify {
-    try = vim.cmd.cprev,
-    fallback = vim.cmd.clast,
-    notify = 'Quickfix list is empty!',
-  }
-end
+-- Move to window using the <ctrl> hjkl keys
+keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to Left Window", remap = true })
+keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to Lower Window", remap = true })
+keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to Upper Window", remap = true })
+keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to Right Window", remap = true })
 
-local function cright()
-  try_fallback_notify {
-    try = vim.cmd.cnext,
-    fallback = vim.cmd.cfirst,
-    notify = 'Quickfix list is empty!',
-  }
-end
+-- Skip wrapped lines when moving up or down
+keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+keymap.set({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-keymap.set('n', '[c', cleft, { silent = true, desc = '[c]ycle quickfix left' })
-keymap.set('n', ']c', cright, { silent = true, desc = '[c]ycle quickfix right' })
-keymap.set('n', '[C', vim.cmd.cfirst, { silent = true, desc = 'first quickfix entry' })
-keymap.set('n', ']C', vim.cmd.clast, { silent = true, desc = 'last quickfix entry' })
+-- Move Lines
+keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
+keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
+keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+keymap.set("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
+keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 
-local function lleft()
-  try_fallback_notify {
-    try = vim.cmd.lprev,
-    fallback = vim.cmd.llast,
-    notify = 'Location list is empty!',
-  }
-end
+-- Clear search with <esc>
+keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
-local function lright()
-  try_fallback_notify {
-    try = vim.cmd.lnext,
-    fallback = vim.cmd.lfirst,
-    notify = 'Location list is empty!',
-  }
-end
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+keymap.set("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
+keymap.set("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+keymap.set("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
+keymap.set("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
+keymap.set("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
+keymap.set("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 
-keymap.set('n', '[l', lleft, { silent = true, desc = 'cycle [l]oclist left' })
-keymap.set('n', ']l', lright, { silent = true, desc = 'cycle [l]oclist right' })
-keymap.set('n', '[L', vim.cmd.lfirst, { silent = true, desc = 'first [L]oclist entry' })
-keymap.set('n', ']L', vim.cmd.llast, { silent = true, desc = 'last [L]oclist entry' })
+-- Save file
+keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
--- Resize vertical splits
-local toIntegral = math.ceil
-keymap.set('n', '<leader>w+', function()
-  local curWinWidth = api.nvim_win_get_width(0)
-  api.nvim_win_set_width(0, toIntegral(curWinWidth * 3 / 2))
-end, { silent = true, desc = 'inc window [w]idth' })
-keymap.set('n', '<leader>w-', function()
-  local curWinWidth = api.nvim_win_get_width(0)
-  api.nvim_win_set_width(0, toIntegral(curWinWidth * 2 / 3))
-end, { silent = true, desc = 'dec window [w]idth' })
-keymap.set('n', '<leader>h+', function()
-  local curWinHeight = api.nvim_win_get_height(0)
-  api.nvim_win_set_height(0, toIntegral(curWinHeight * 3 / 2))
-end, { silent = true, desc = 'inc window [h]eight' })
-keymap.set('n', '<leader>h-', function()
-  local curWinHeight = api.nvim_win_get_height(0)
-  api.nvim_win_set_height(0, toIntegral(curWinHeight * 2 / 3))
-end, { silent = true, desc = 'dec window [h]eight' })
+-- Better indenting
+keymap.set("v", "<", "<gv")
+keymap.set("v", ">", ">gv")
 
--- Close floating windows [Neovim 0.10 and above]
-keymap.set('n', '<leader>fq', function()
-  vim.cmd('fclose!')
-end, { silent = true, desc = '[f]loating windows: [q]uit/close all' })
+-- Commenting
+keymap.set("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+keymap.set("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 
--- Remap Esc to switch to normal mode and Ctrl-Esc to pass Esc to terminal
-keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'switch to normal mode' })
-keymap.set('t', '<C-Esc>', '<Esc>', { desc = 'send Esc to terminal' })
+-- New file
+keymap.set("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New File" })
 
--- Shortcut for expanding to current buffer's directory in command mode
-keymap.set('c', '%%', function()
-  if fn.getcmdtype() == ':' then
-    return fn.expand('%:h') .. '/'
-  else
-    return '%%'
-  end
-end, { expr = true, desc = "expand to current buffer's directory" })
+-- Open location/quickfix list
+keymap.set("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
+keymap.set("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
-keymap.set('n', '<space>tn', vim.cmd.tabnew, { desc = '[t]ab: [n]ew' })
-keymap.set('n', '<space>tq', vim.cmd.tabclose, { desc = '[t]ab: [q]uit/close' })
+-- Quickfix navigation
+keymap.set("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
+keymap.set("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
+-- Diagnostics
 local severity = diagnostic.severity
-
--- keymap.set('n', '<space>e', function()
---   local _, winid = diagnostic.open_float(nil, { scope = 'line' })
---   if not winid then
---     vim.notify('no diagnostics found', vim.log.levels.INFO)
---     return
---   end
---   vim.api.nvim_win_set_config(winid or 0, { focusable = true })
--- end, { noremap = true, silent = true, desc = 'diagnostics floating window' })
-keymap.set('n', '[d', diagnostic.goto_prev, { noremap = true, silent = true, desc = 'previous [d]iagnostic' })
-keymap.set('n', ']d', diagnostic.goto_next, { noremap = true, silent = true, desc = 'next [d]iagnostic' })
+keymap.set('n', '[d', diagnostic.goto_prev, { noremap = true, silent = true, desc = 'Previous Diagnostic' })
+keymap.set('n', ']d', diagnostic.goto_next, { noremap = true, silent = true, desc = 'Next Diagnostic' })
 keymap.set('n', '[e', function()
   diagnostic.goto_prev {
     severity = severity.ERROR,
   }
-end, { noremap = true, silent = true, desc = 'previous [e]rror diagnostic' })
+end, { noremap = true, silent = true, desc = 'Previous Error' })
 keymap.set('n', ']e', function()
   diagnostic.goto_next {
     severity = severity.ERROR,
   }
-end, { noremap = true, silent = true, desc = 'next [e]rror diagnostic' })
+end, { noremap = true, silent = true, desc = 'Next Error' })
 keymap.set('n', '[w', function()
   diagnostic.goto_prev {
     severity = severity.WARN,
   }
-end, { noremap = true, silent = true, desc = 'previous [w]arning diagnostic' })
+end, { noremap = true, silent = true, desc = 'Previous Warning' })
 keymap.set('n', ']w', function()
   diagnostic.goto_next {
     severity = severity.WARN,
   }
-end, { noremap = true, silent = true, desc = 'next [w]arning diagnostic' })
+end, { noremap = true, silent = true, desc = 'Next warning' })
 keymap.set('n', '[h', function()
   diagnostic.goto_prev {
     severity = severity.HINT,
   }
-end, { noremap = true, silent = true, desc = 'previous [h]int diagnostic' })
+end, { noremap = true, silent = true, desc = 'Previous Hint' })
 keymap.set('n', ']h', function()
   diagnostic.goto_next {
     severity = severity.HINT,
   }
-end, { noremap = true, silent = true, desc = 'next [h]int diagnostic' })
+end, { noremap = true, silent = true, desc = 'Next Hint' })
 
-local function toggle_spell_check()
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.opt.spell = not (vim.opt.spell:get())
+-- Toggle options
+local function inlay_hints()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({}))
 end
-
-keymap.set('n', '<leader>S', toggle_spell_check, { noremap = true, silent = true, desc = 'toggle [S]pell' })
-
-keymap.set('n', '<C-d>', '<C-d>zz', { desc = 'move [d]own half-page and center' })
-keymap.set('n', '<C-u>', '<C-u>zz', { desc = 'move [u]p half-page and center' })
-keymap.set('n', '<C-f>', '<C-f>zz', { desc = 'move DOWN [f]ull-page and center' })
-keymap.set('n', '<C-b>', '<C-b>zz', { desc = 'move UP full-page and center' })
-
---- Disabled keymaps [enable at your own risk]
-
--- Automatic management of search highlight
--- XXX: This is not so nice if you use j/k for navigation
--- (you should be using <C-d>/<C-u> and relative line numbers instead ;)
---
--- local auto_hlsearch_namespace = vim.api.nvim_create_namespace('auto_hlsearch')
--- vim.on_key(function(char)
---   if vim.fn.mode() == 'n' then
---     vim.opt.hlsearch = vim.tbl_contains({ '<CR>', 'n', 'N', '*', '#', '?', '/' }, vim.fn.keytrans(char))
---   end
--- end, auto_hlsearch_namespace)
+local function toggle_spell_check()
+  if vim.opt.spell then
+    vim.opt.spell = false
+  else
+    vim.opt.spell = true
+  end
+end
+local function toggle_word_wrap()
+  if vim.wo.wrap then
+    vim.wo.wrap = false
+  else
+    vim.wo.wrap = true
+  end
+end
+keymap.set('n', '<leader>us', toggle_spell_check, { noremap = true, silent = true, desc = 'Toggle Spelling' })
+keymap.set("n", "<leader>uw", toggle_word_wrap, { desc = "Toggle Word Wrap" })
+keymap.set( "n", "<leader>uh", function() inlay_hints() end, { desc = "Toggle Inlay Hints" })
 
 -- Fast scrolling
 keymap.set('n', '<S-j>', '10j', { desc = 'Scroll down' })
@@ -209,6 +179,17 @@ keymap.set('n', '<ScrollWheelLeft>', '<Nop>')
 keymap.set('n', '<S-ScrollWheelUp>', '<ScrollWheelRight>')
 keymap.set('n', '<S-ScrollWheelDown>', '<ScrollWheelLeft>')
 
--- Disable replacing cliboard on change
+-- Disable replacing clipboard on change
 keymap.set('n', 'c', '"_c', { desc = 'Change without replacing clipboard' })
 keymap.set('n', 'C', '"_C', { desc = 'Change without replacing clipboard' })
+
+-- Windows
+keymap.set("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })
+keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
+keymap.set("n", "<leader>w-", "<C-W>s", { desc = "Split Window Below", remap = true })
+keymap.set("n", "<leader>w|", "<C-W>v", { desc = "Split Window Right", remap = true })
+keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
+keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
+
+-- Quit
+keymap.set("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })

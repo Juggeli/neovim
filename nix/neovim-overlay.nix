@@ -58,6 +58,7 @@ with final.pkgs.lib; let
     dashboard-nvim
     noice-nvim
     nvim-notify
+    dressing-nvim
   ];
 
 

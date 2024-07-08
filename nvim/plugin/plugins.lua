@@ -7,5 +7,15 @@ vim.g.did_load_plugins_plugin = true
 -- even with default configs
 
 require('which-key').setup()
-require('mini.animate').setup()
+require('dressing').setup()
 require('mini.statusline').setup()
+require('mini.git').setup()
+require('mini.diff').setup({
+  view = {
+    style = 'sign',
+    signs = { add = '▎', change = '▎', delete = '' },
+  }
+})
+require('mini.tabline').setup()
+require('mini.ai').setup()
+require('mini.comment').setup()
