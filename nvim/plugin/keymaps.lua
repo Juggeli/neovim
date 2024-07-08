@@ -9,7 +9,7 @@ local keymap = vim.keymap
 local diagnostic = vim.diagnostic
 
 -- Yank from current position till end of current line
-keymap.set('n', 'Y', 'y$', { silent = true, desc = '[Y]ank to end of line' })
+-- keymap.set('n', 'Y', 'y$', { silent = true, desc = '[Y]ank to end of line' })
 
 -- Buffer list navigation
 keymap.set('n', '[b', vim.cmd.bprevious, { silent = true, desc = 'previous [b]uffer' })
@@ -133,14 +133,14 @@ keymap.set('n', '<space>tq', vim.cmd.tabclose, { desc = '[t]ab: [q]uit/close' })
 
 local severity = diagnostic.severity
 
-keymap.set('n', '<space>e', function()
-  local _, winid = diagnostic.open_float(nil, { scope = 'line' })
-  if not winid then
-    vim.notify('no diagnostics found', vim.log.levels.INFO)
-    return
-  end
-  vim.api.nvim_win_set_config(winid or 0, { focusable = true })
-end, { noremap = true, silent = true, desc = 'diagnostics floating window' })
+-- keymap.set('n', '<space>e', function()
+--   local _, winid = diagnostic.open_float(nil, { scope = 'line' })
+--   if not winid then
+--     vim.notify('no diagnostics found', vim.log.levels.INFO)
+--     return
+--   end
+--   vim.api.nvim_win_set_config(winid or 0, { focusable = true })
+-- end, { noremap = true, silent = true, desc = 'diagnostics floating window' })
 keymap.set('n', '[d', diagnostic.goto_prev, { noremap = true, silent = true, desc = 'previous [d]iagnostic' })
 keymap.set('n', ']d', diagnostic.goto_next, { noremap = true, silent = true, desc = 'next [d]iagnostic' })
 keymap.set('n', '[e', function()
@@ -198,3 +198,17 @@ keymap.set('n', '<C-b>', '<C-b>zz', { desc = 'move UP full-page and center' })
 --     vim.opt.hlsearch = vim.tbl_contains({ '<CR>', 'n', 'N', '*', '#', '?', '/' }, vim.fn.keytrans(char))
 --   end
 -- end, auto_hlsearch_namespace)
+
+-- Fast scrolling
+keymap.set('n', '<S-j>', '10j', { desc = 'Scroll down' })
+keymap.set('n', '<S-k>', '10k', { desc = 'Scroll up' })
+
+-- Disable horizontal scrolling with mouse
+keymap.set('n', '<ScrollWheelRight>', '<Nop>')
+keymap.set('n', '<ScrollWheelLeft>', '<Nop>')
+keymap.set('n', '<S-ScrollWheelUp>', '<ScrollWheelRight>')
+keymap.set('n', '<S-ScrollWheelDown>', '<ScrollWheelLeft>')
+
+-- Disable replacing cliboard on change
+keymap.set('n', 'c', '"_c', { desc = 'Change without replacing clipboard' })
+keymap.set('n', 'C', '"_C', { desc = 'Change without replacing clipboard' })

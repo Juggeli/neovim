@@ -3,9 +3,8 @@ local fn = vim.fn
 local opt = vim.o
 local g = vim.g
 
--- <leader> key. Defaults to `\`. Some people prefer space.
--- g.mapleader = ' '
--- g.maplocalleader = ' '
+g.mapleader = ' '
+g.maplocalleader = ' '
 
 opt.compatible = false
 
@@ -22,7 +21,6 @@ opt.path = vim.o.path .. '**'
 opt.number = true
 opt.relativenumber = true
 opt.cursorline = true
-opt.lazyredraw = true
 opt.showmatch = true -- Highlight matching parentheses, etc
 opt.incsearch = true
 opt.hlsearch = true
@@ -43,6 +41,12 @@ opt.splitbelow = true
 opt.cmdheight = 0
 
 opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+
+-- Keep the cursor in the middle of the screen
+opt.scrolloff = 999
+
+-- Preview substitutions live
+opt.inccommand = 'split'
 
 -- Configure Neovim diagnostic messages
 
@@ -94,7 +98,8 @@ vim.diagnostic.config {
 
 g.editorconfig = true
 
-vim.opt.colorcolumn = '100'
+-- Show indicator at 80 characters
+vim.opt.colorcolumn = '80'
 
 -- Native plugins
 cmd.filetype('plugin', 'indent', 'on')
