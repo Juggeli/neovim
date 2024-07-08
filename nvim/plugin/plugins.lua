@@ -17,5 +17,4 @@ require('mini.diff').setup({
   }
 })
 require('mini.tabline').setup()
-require('mini.ai').setup()
 require('mini.comment').setup()
