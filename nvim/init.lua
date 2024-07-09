@@ -42,17 +42,19 @@ opt.cmdheight = 0
 
 opt.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
--- Keep the cursor in the middle of the screen
-opt.scrolloff = 999
-
 -- Preview substitutions live
 opt.inccommand = 'split'
 
 -- Set mouse scroll speed
 opt.mousescroll = 'ver:1,hor:1'
 
--- Configure Neovim diagnostic messages
+-- Always show the signcolumn, otherwise it would shift the text each time
+opt.signcolumn = 'yes'
 
+-- Sync clipboard between OS and Neovim.
+vim.opt.clipboard = 'unnamedplus'
+
+-- Configure Neovim diagnostic messages
 local function prefix_diagnostic(prefix, diagnostic)
   return string.format(prefix .. ' %s', diagnostic.message)
 end

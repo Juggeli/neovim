@@ -24,13 +24,6 @@ vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = 'Grep (Root Dir)' }
 vim.keymap.set('n', '<leader>fg', fuzzy_grep, { desc = 'Fuzzy Grep (Root Dir)' })
 vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Grep Current String' })
 vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = 'Quick Fix List' })
-vim.keymap.set('n', '<leader>fd', builtin.lsp_document_symbols, { desc = 'Document Symbols' })
-vim.keymap.set(
-  'n',
-  '<leader>fs',
-  builtin.lsp_dynamic_workspace_symbols,
-  { desc = 'Workspace Symbols' }
-)
 
 telescope.setup {
   defaults = {

@@ -1,10 +1,13 @@
 # This overlay, when applied to nixpkgs, adds the final neovim derivation to nixpkgs.
-{ inputs }: final: prev:
-with final.pkgs.lib; let
+{ inputs }:
+final: prev:
+with final.pkgs.lib;
+let
   pkgs = final;
 
   # Use this to create a plugin from a flake input
-  mkNvimPlugin = src: pname:
+  mkNvimPlugin =
+    src: pname:
     pkgs.vimUtils.buildVimPlugin {
       inherit pname src;
       version = src.lastModifiedDate;
@@ -46,27 +49,36 @@ with final.pkgs.lib; let
     telescope-fzy-native-nvim # https://github.com/nvim-telescope/telescope-fzy-native.nvim
     # libraries that other plugins depend on
     plenary-nvim
-    nvim-web-devicons
     # ^ libraries that other plugins depend on
-    # bleeding-edge plugins from flake inputs
-    # (mkNvimPlugin inputs.wf-nvim "wf.nvim") # (example) keymap hints | https://github.com/Cassin01/wf.nvim
-    # ^ bleeding-edge plugins from flake inputs
     which-key-nvim
 
-    mini-nvim
+    # Theme
     catppuccin-nvim
+
+    # Dashboard
     dashboard-nvim
+
+    # Fancy UI
     noice-nvim
     nvim-notify
     dressing-nvim
-  ];
 
+    # Autoformat
+    conform-nvim
+
+    # bleeding-edge plugins from flake inputs
+    (mkNvimPlugin inputs.stay-centered "stay-centered.nvim")
+    (mkNvimPlugin inputs.mini "mini.nvim")
+    # ^ bleeding-edge plugins from flake inputs
+  ];
 
   extraPackages = with pkgs; [
     # language servers, etc.
     lua-language-server
     nil # nix LSP
     ripgrep # for telescope live_grep
+    stylua # lua formatting
+    nixfmt-rfc-style # nix formatting
   ];
 in
 {
@@ -78,9 +90,7 @@ in
   };
 
   # This can be symlinked in the devShell's shellHook
-  nvim-luarc-json = final.mk-luarc-json {
-    plugins = all-plugins;
-  };
+  nvim-luarc-json = final.mk-luarc-json { plugins = all-plugins; };
 
   # You can add as many derivations as you like.
   # Use `ignoreConfigRegexes` to filter out config

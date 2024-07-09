@@ -9,25 +9,9 @@ local luasnip = require('luasnip')
 
 vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
 
-local function has_words_before()
-  local unpack_ = unpack or table.unpack
-  local line, col = unpack_(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-end
-
----@param source string|table
-local function complete_with_source(source)
-  if type(source) == 'string' then
-    cmp.complete { config = { sources = { { name = source } } } }
-  elseif type(source) == 'table' then
-    cmp.complete { config = { sources = { source } } }
-  end
-end
-
 cmp.setup {
   completion = {
     completeopt = 'menu,menuone,noinsert',
-    -- autocomplete = false,
   },
   formatting = {
     format = lspkind.cmp_format {
@@ -53,53 +37,38 @@ cmp.setup {
     end,
   },
   mapping = {
-    ['<C-b>'] = cmp.mapping(function(_)
-      if cmp.visible() then
-        cmp.scroll_docs(-4)
-      else
-        complete_with_source('buffer')
-      end
-    end, { 'i', 'c', 's' }),
-    ['<C-f>'] = cmp.mapping(function(_)
-      if cmp.visible() then
-        cmp.scroll_docs(4)
-      else
-        complete_with_source('path')
-      end
-    end, { 'i', 'c', 's' }),
-    ['<C-n>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      -- expand_or_jumpable(): Jump outside the snippet region
-      -- expand_or_locally_jumpable(): Only jump inside the snippet region
-      elseif luasnip.expand_or_locally_jumpable() then
+    -- Select the [n]ext item
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    -- Select the [p]revious item
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+
+    -- Scroll the documentation window [b]ack / [f]orward
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+
+    -- Accept ([y]es) the completion.
+    --  This will auto-import if your LSP supports it.
+    --  This will expand snippets if the LSP sent a snippet.
+    ['<C-y>'] = cmp.mapping.confirm { select = true },
+
+    -- Think of <c-l> as moving to the right of your snippet expansion.
+    --  So if you have a snippet that's like:
+    --  function $name($args)
+    --    $body
+    --  end
+    --
+    -- <c-l> will move you to the right of each of the expansion locations.
+    -- <c-h> is similar, except moving you backwards.
+    ['<C-l>'] = cmp.mapping(function()
+      if luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
-      elseif has_words_before() then
-        cmp.complete()
-      else
-        fallback()
       end
-    end, { 'i', 'c', 's' }),
-    ['<C-p>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
+    end, { 'i', 's' }),
+    ['<C-h>'] = cmp.mapping(function()
+      if luasnip.locally_jumpable(-1) then
         luasnip.jump(-1)
-      else
-        fallback()
       end
-    end, { 'i', 'c', 's' }),
-    -- toggle completion
-    ['<C-e>'] = cmp.mapping(function(_)
-      if cmp.visible() then
-        cmp.close()
-      else
-        cmp.complete()
-      end
-    end, { 'i', 'c', 's' }),
-    ['<C-y>'] = cmp.mapping.confirm {
-      select = true,
-    },
+    end, { 'i', 's' }),
   },
   sources = cmp.config.sources {
     -- The insertion order influences the priority of the sources
@@ -147,17 +116,3 @@ cmp.setup.cmdline(':', {
     { name = 'path' },
   },
 })
-
-vim.keymap.set({ 'i', 'c', 's' }, '<C-n>', cmp.complete, { noremap = false, desc = '[cmp] complete' })
-vim.keymap.set({ 'i', 'c', 's' }, '<C-f>', function()
-  complete_with_source('path')
-end, { noremap = false, desc = '[cmp] path' })
-vim.keymap.set({ 'i', 'c', 's' }, '<C-o>', function()
-  complete_with_source('nvim_lsp')
-end, { noremap = false, desc = '[cmp] lsp' })
-vim.keymap.set({ 'c' }, '<C-h>', function()
-  complete_with_source('cmdline_history')
-end, { noremap = false, desc = '[cmp] cmdline history' })
-vim.keymap.set({ 'c' }, '<C-c>', function()
-  complete_with_source('cmdline')
-end, { noremap = false, desc = '[cmp] cmdline' })

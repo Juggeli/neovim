@@ -1,5 +1,5 @@
-local extras = require("mini.extra")
-require("mini.ai").setup({
+local extras = require('mini.extra')
+require('mini.ai').setup {
   n_lines = 500,
   custom_textobjects = {
     B = extras.gen_ai_spec.buffer(),
@@ -8,4 +8,4 @@ require("mini.ai").setup({
     L = extras.gen_ai_spec.line(),
     N = extras.gen_ai_spec.number(),
   },
-})
+}

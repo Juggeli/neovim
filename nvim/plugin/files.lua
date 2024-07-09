@@ -7,4 +7,10 @@ local files = require('mini.files')
 
 files.setup()
 
-vim.keymap.set('n', '<space>e', files.open, { desc = 'Open files [e]explorer' })
+local minifiles_toggle = function()
+  if not MiniFiles.close() then
+    MiniFiles.open(vim.api.nvim_buf_get_name(0))
+  end
+end
+
+vim.keymap.set('n', '<space>e', minifiles_toggle, { desc = 'Open file explorer' })

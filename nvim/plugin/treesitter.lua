@@ -23,14 +23,10 @@ configs.setup {
   incremental_selection = {
     enable = true,
     keymaps = {
-      init_selection = "<C-space>",
-      node_incremental = "<C-space>",
+      init_selection = '<C-space>',
+      node_incremental = '<C-space>',
       scope_incremental = false,
-      node_decremental = "<bs>",
+      node_decremental = '<bs>',
     },
   },
 }
-
--- Tree-sitter based folding
--- vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
