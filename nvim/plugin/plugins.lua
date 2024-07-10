@@ -28,3 +28,4 @@ require('stay-centered').setup {
   skip_filetypes = { 'minifiles' },
 }
 require('mini.pick').setup()
+require('auto-save').setup()

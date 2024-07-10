@@ -49,6 +49,8 @@ let
     telescope-fzy-native-nvim # https://github.com/nvim-telescope/telescope-fzy-native.nvim
     # libraries that other plugins depend on
     plenary-nvim
+    nvim-nio # for neotest
+    FixCursorHold-nvim # for neotest
     # ^ libraries that other plugins depend on
     which-key-nvim
 
@@ -70,6 +72,13 @@ let
     (mkNvimPlugin inputs.stay-centered "stay-centered.nvim")
     (mkNvimPlugin inputs.mini "mini.nvim")
     # ^ bleeding-edge plugins from flake inputs
+
+    # Neotest
+    neotest
+    neotest-dart
+
+    # Autosave
+    auto-save-nvim
   ];
 
   extraPackages = with pkgs; [

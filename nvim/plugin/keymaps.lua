@@ -166,8 +166,8 @@ keymap.set('n', '<leader>us', toggle_spell_check, { noremap = true, silent = tru
 keymap.set('n', '<leader>uw', toggle_word_wrap, { desc = 'Toggle Word Wrap' })
 
 -- Fast scrolling
-keymap.set('n', '<S-j>', '10j', { desc = 'Scroll down' })
-keymap.set('n', '<S-k>', '10k', { desc = 'Scroll up' })
+keymap.set('n', '<S-j>', '10j', { desc = 'Scroll Down' })
+keymap.set('n', '<S-k>', '10k', { desc = 'Scroll Up' })
 
 -- Disable horizontal scrolling with mouse
 keymap.set('n', '<ScrollWheelRight>', '<Nop>')
@@ -176,8 +176,8 @@ keymap.set('n', '<S-ScrollWheelUp>', '<ScrollWheelRight>')
 keymap.set('n', '<S-ScrollWheelDown>', '<ScrollWheelLeft>')
 
 -- Disable replacing clipboard on change
-keymap.set('n', 'c', '"_c', { desc = 'Change without replacing clipboard' })
-keymap.set('n', 'C', '"_C', { desc = 'Change without replacing clipboard' })
+keymap.set('n', 'c', '"_c', { desc = 'Change Without Replacing Clipboard' })
+keymap.set('n', 'C', '"_C', { desc = 'Change Without Replacing Clipboard' })
 
 -- Windows
 keymap.set('n', '<leader>ww', '<C-W>p', { desc = 'Other Window', remap = true })
@@ -190,6 +190,10 @@ keymap.set('n', '<leader>|', '<C-W>v', { desc = 'Split Window Right', remap = tr
 -- Quit
 keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
 
+-- Show diagnostics
 keymap.set('n', '<leader>xx', function()
   require('mini.extra').pickers.diagnostic()
 end, { desc = 'Show Diagnostics' })
+
+-- Don't move cursor on yank
+keymap.set('x', 'y', 'ygv<Esc>', { noremap = true, silent = true })
