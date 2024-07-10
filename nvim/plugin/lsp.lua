@@ -16,7 +16,9 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local keymap = vim.keymap
     keymap.set('n', '<leader>cl', '<cmd>LspInfo<cr>', desc('Lsp Info'))
     keymap.set('n', 'gd', vim.lsp.buf.definition, desc('Goto Definition'))
-    keymap.set('n', 'gr', vim.lsp.buf.references, desc('References'))
+    keymap.set('n', 'gr', function()
+      require('mini.extra').pickers.lsp { scope = 'references' }
+    end, desc('References'))
     keymap.set('n', 'gI', vim.lsp.buf.implementation, desc('Goto Implementation'))
     keymap.set('n', 'gy', vim.lsp.buf.type_definition, desc('Goto Type Definition'))
     keymap.set('n', 'gD', vim.lsp.buf.declaration, desc('Goto Declaration'))
@@ -36,6 +38,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
       end, desc('Toggle Inlay Hints'))
     end
+
+    -- Add rounded borders to hover and signature help
+    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded' })
+    vim.lsp.handlers['textDocument/signatureHelp'] =
+      vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded' })
 
     -- The following two autocommands are used to highlight references of the
     -- word under your cursor when your cursor rests there for a little while.

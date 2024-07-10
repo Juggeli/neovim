@@ -19,6 +19,12 @@ require('mini.diff').setup {
 require('mini.tabline').setup()
 require('mini.comment').setup()
 require('mini.surround').setup()
+require('mini.indentscope').setup {
+  symbol = '│',
+}
 require('mini.icons').setup()
 MiniIcons.mock_nvim_web_devicons()
-require('stay-centered').setup()
+require('stay-centered').setup {
+  skip_filetypes = { 'minifiles' },
+}
+require('mini.pick').setup()

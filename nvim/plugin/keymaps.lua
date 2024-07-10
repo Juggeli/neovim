@@ -189,3 +189,7 @@ keymap.set('n', '<leader>|', '<C-W>v', { desc = 'Split Window Right', remap = tr
 
 -- Quit
 keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
+
+keymap.set('n', '<leader>xx', function()
+  require('mini.extra').pickers.diagnostic()
+end, { desc = 'Show Diagnostics' })
