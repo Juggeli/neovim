@@ -195,5 +195,15 @@ keymap.set('n', '<leader>xx', function()
   require('mini.extra').pickers.diagnostic()
 end, { desc = 'Show Diagnostics' })
 
+-- Show diagnostics
+keymap.set('n', '<leader>xx', function()
+  require('mini.extra').pickers.diagnostic()
+end, { desc = 'Show Diagnostics' })
+
+-- Show keymaps
+keymap.set('n', '<leader>uk', function()
+  require('mini.extra').pickers.keymaps()
+end, { desc = 'Show keymaps' })
+
 -- Don't move cursor on yank
 keymap.set('x', 'y', 'ygv<Esc>', { noremap = true, silent = true })
