@@ -28,4 +28,10 @@ require('stay-centered').setup {
   skip_filetypes = { 'minifiles' },
 }
 require('mini.pick').setup()
-require('auto-save').setup()
+require('auto-save').setup {
+  execution_message = {
+    enabled = false,
+  },
+  -- Save after minute of idle
+  debounce_delay = 60000,
+}
