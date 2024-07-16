@@ -79,6 +79,9 @@ let
 
     # Autosave
     auto-save-nvim
+
+    # Copilot
+    copilot-lua
   ];
 
   extraPackages = with pkgs; [
