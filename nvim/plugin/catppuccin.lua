@@ -8,12 +8,20 @@ require('catppuccin').setup {
     return {
       -- Set a bit brighter color for window separator
       WinSeparator = { fg = colors.surface1 },
+
       MiniIndentscopeSymbol = { fg = colors.surface2 },
+      MiniTablineCurrent = { fg = colors.text, bg = colors.surface0, sp = colors.red, style = { 'bold' } },
+      MiniTablineModifiedCurrent = { fg = colors.green, bg = colors.surface0, style = { 'bold' } },
     }
   end,
-  noice = true,
-  notify = true,
-  which_key = true,
+  integrations = {
+    noice = true,
+    notify = true,
+    which_key = true,
+    mini = {
+      enabled = true,
+    },
+  },
 }
 
 vim.cmd.colorscheme('catppuccin')
