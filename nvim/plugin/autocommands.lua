@@ -66,3 +66,14 @@ vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
     end
   end,
 })
+
+-- Load project based config
+vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+  nested = true,
+  callback = function()
+    local filepath = vim.fn.fnamemodify('.nvim.lua', ':p')
+    if vim.fn.filereadable(filepath) == 1 then
+      vim.cmd('luafile .nvim.lua')
+    end
+  end,
+})
