@@ -82,6 +82,9 @@ let
 
     # Copilot
     copilot-lua
+
+    # Flutter
+    flutter-tools-nvim
   ];
 
   extraPackages = with pkgs; [
