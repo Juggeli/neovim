@@ -195,10 +195,7 @@ keymap.set('n', '<leader>xx', function()
   require('mini.extra').pickers.diagnostic()
 end, { desc = 'Show Diagnostics' })
 
--- Show diagnostics
-keymap.set('n', '<leader>xx', function()
-  require('mini.extra').pickers.diagnostic()
-end, { desc = 'Show Diagnostics' })
+keymap.set('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Show diagnostics float' })
 
 -- Show keymaps
 keymap.set('n', '<leader>uk', function()
