@@ -71,6 +71,11 @@ telescope.setup {
       override_file_sorter = true,
     },
   },
+  pickers = {
+    oldfiles = {
+      cwd_only = true,
+    },
+  },
 }
 
 telescope.load_extension('fzy_native')
