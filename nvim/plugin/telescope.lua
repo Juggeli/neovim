@@ -7,23 +7,22 @@ local telescope = require('telescope')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
 
---- Like live_grep, but fuzzy (and slower)
-local function fuzzy_grep(opts)
-  opts = vim.tbl_extend('error', opts or {}, { search = '', prompt_title = 'Fuzzy grep' })
-  builtin.grep_string(opts)
-end
+local ivy = require('telescope.themes').get_ivy()
 
-vim.keymap.set('n', '<leader>ff', function()
-  builtin.find_files()
-end, { desc = 'Find files' })
-vim.keymap.set('n', '<leader><space>', function()
-  builtin.find_files()
-end, { desc = 'Find files' })
-vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = 'Find Recent Files' })
-vim.keymap.set('n', '<leader>/', builtin.live_grep, { desc = 'Grep (Root Dir)' })
-vim.keymap.set('n', '<leader>fg', fuzzy_grep, { desc = 'Fuzzy Grep (Root Dir)' })
-vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Grep Current String' })
-vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = 'Quick Fix List' })
+vim.keymap.set('n', '<leader>ff', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader><space>', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader>fr', function()
+  builtin.oldfiles(ivy)
+end, { desc = 'Find Recent Files' })
+vim.keymap.set('n', '<leader>/', function()
+  builtin.live_grep(ivy)
+end, { desc = 'Grep (Root Dir)' })
+vim.keymap.set('n', '<leader>fw', function()
+  builtin.grep_string(ivy)
+end, { desc = 'Grep Current String' })
+vim.keymap.set('n', '<leader>fq', function()
+  builtin.quickfix(ivy)
+end, { desc = 'Quick Fix List' })
 
 telescope.setup {
   defaults = {
@@ -70,6 +69,10 @@ telescope.setup {
       override_generic_sorter = false,
       override_file_sorter = true,
     },
+    frecency = {
+      show_filter_column = false,
+      matcher = 'fuzzy',
+    },
   },
   pickers = {
     oldfiles = {
@@ -79,3 +82,4 @@ telescope.setup {
 }
 
 telescope.load_extension('fzy_native')
+telescope.load_extension('frecency')

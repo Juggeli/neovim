@@ -34,9 +34,7 @@ local opts = {
     header = vim.split(logo, '\n'),
     center = {
       {
-        action = function()
-          builtin.find_files()
-        end,
+        action = 'Telescope frecency workspace=CWD theme=ivy',
         desc = ' Find File',
         icon = ' ',
         key = 'f',
@@ -48,9 +46,7 @@ local opts = {
         key = 'n',
       },
       {
-        action = function()
-          builtin.oldfiles()
-        end,
+        action = 'Telescope oldfiles theme=ivy',
         desc = ' Recent Files',
         icon = ' ',
         key = 'r',

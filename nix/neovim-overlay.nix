@@ -47,6 +47,7 @@ let
     # telescope and extensions
     telescope-nvim # https://github.com/nvim-telescope/telescope.nvim/
     telescope-fzy-native-nvim # https://github.com/nvim-telescope/telescope-fzy-native.nvim
+    telescope-frecency-nvim # https://github.com/nvim-telescope/telescope-frecency.nvim
     # libraries that other plugins depend on
     plenary-nvim
     nvim-nio # for neotest
