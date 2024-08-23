@@ -204,3 +204,6 @@ end, { desc = 'Show keymaps' })
 
 -- Don't move cursor on yank
 keymap.set('x', 'y', 'ygv<Esc>', { noremap = true, silent = true })
+
+keymap.set('n', '<ScrollWheelUp>', 'k', { desc = 'Scroll up with mouse wheel' })
+keymap.set('n', '<ScrollWheelDown>', 'j', { desc = 'Scroll down with mouse wheel' })
