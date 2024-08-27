@@ -77,9 +77,9 @@ cmp.setup {
   sources = cmp.config.sources {
     -- The insertion order influences the priority of the sources
     { name = 'nvim_lsp' },
-    { name = 'nvim_lsp_signature_help' },
-    -- { name = 'buffer' }, -- disabled for now
-    { name = 'path' },
+    -- { name = 'nvim_lsp_signature_help' },
+    { name = 'buffer', keyword_length = 4 },
+    { name = 'path', keyword_length = 4 },
   },
   enabled = function()
     return vim.bo[0].buftype ~= 'prompt'
@@ -87,6 +87,10 @@ cmp.setup {
   experimental = {
     native_menu = false,
     ghost_text = true,
+  },
+  performance = {
+    debounce = 0, -- default is 60ms
+    throttle = 0, -- default is 30ms
   },
 }
 
