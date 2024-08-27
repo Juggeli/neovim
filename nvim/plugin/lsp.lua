@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     keymap.set('n', 'gy', vim.lsp.buf.type_definition, desc('Goto Type Definition'))
     keymap.set('n', 'gD', vim.lsp.buf.declaration, desc('Goto Declaration'))
     keymap.set('n', 'P', vim.lsp.buf.hover, desc('Hover'))
-    keymap.set('n', 'gK', vim.lsp.buf.signature_help, desc('Signature Help'))
+    keymap.set('n', '<leader>k', vim.lsp.buf.signature_help, desc('Signature Help'))
     keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, desc('Signature Help'))
     keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, desc('Code Action'))
     keymap.set('n', '<leader>cc', vim.lsp.codelens.run, desc('Codelens Run'))
