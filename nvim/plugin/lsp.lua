@@ -9,6 +9,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local bufnr = event.buf
     local client = vim.lsp.get_client_by_id(event.data.client_id)
     local builtin = require('telescope.builtin')
+    local ivy = require('telescope.themes').get_ivy()
 
     local function desc(description)
       return { noremap = true, silent = true, buffer = bufnr, desc = description }
@@ -17,7 +18,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     keymap.set('n', '<leader>cl', '<cmd>LspInfo<cr>', desc('Lsp Info'))
     keymap.set('n', 'gd', vim.lsp.buf.definition, desc('Goto Definition'))
     keymap.set('n', 'gr', function()
-      require('mini.extra').pickers.lsp { scope = 'references' }
+      builtin.lsp_references(ivy)
     end, desc('References'))
     keymap.set('n', 'gI', vim.lsp.buf.implementation, desc('Goto Implementation'))
     keymap.set('n', 'gy', vim.lsp.buf.type_definition, desc('Goto Type Definition'))

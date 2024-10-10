@@ -4,6 +4,7 @@ end
 vim.g.did_load_dashboard_plugin = true
 
 local builtin = require('telescope.builtin')
+local ivy = require('telescope.themes').get_ivy()
 
 local logo = [[
         ⢀⣴⡾⠃⠄⠄⠄⠄⠄⠈⠺⠟⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣶⣤⡀  
@@ -34,7 +35,9 @@ local opts = {
     header = vim.split(logo, '\n'),
     center = {
       {
-        action = 'Telescope frecency workspace=CWD theme=ivy',
+        action = function()
+          builtin.find_files(ivy)
+        end,
         desc = ' Find File',
         icon = ' ',
         key = 'f',
@@ -46,14 +49,16 @@ local opts = {
         key = 'n',
       },
       {
-        action = 'Telescope oldfiles theme=ivy',
+        action = function()
+          builtin.oldfiles(ivy)
+        end,
         desc = ' Recent Files',
         icon = ' ',
         key = 'r',
       },
       {
         action = function()
-          builtin.live_grep()
+          builtin.live_grep(ivy)
         end,
         desc = ' Find Text',
         icon = ' ',

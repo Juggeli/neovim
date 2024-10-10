@@ -5,6 +5,8 @@ vim.g.did_load_keymaps_plugin = true
 
 local keymap = vim.keymap
 local diagnostic = vim.diagnostic
+local builtin = require('telescope.builtin')
+local ivy = require('telescope.themes').get_ivy()
 
 local function bufremove(buf)
   buf = buf or 0
@@ -192,14 +194,14 @@ keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
 
 -- Show diagnostics
 keymap.set('n', '<leader>xx', function()
-  require('mini.extra').pickers.diagnostic()
+  builtin.diagnostics(ivy)
 end, { desc = 'Show Diagnostics' })
 
 keymap.set('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Show diagnostics float' })
 
 -- Show keymaps
 keymap.set('n', '<leader>uk', function()
-  require('mini.extra').pickers.keymaps()
+  builtin.keymaps(ivy)
 end, { desc = 'Show keymaps' })
 
 -- Don't move cursor on yank

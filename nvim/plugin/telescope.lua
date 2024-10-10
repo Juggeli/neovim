@@ -6,11 +6,14 @@ vim.g.did_load_telescope_plugin = true
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
-
 local ivy = require('telescope.themes').get_ivy()
 
-vim.keymap.set('n', '<leader>ff', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = 'Find files' })
-vim.keymap.set('n', '<leader><space>', '<cmd>Telescope frecency workspace=CWD theme=ivy<cr>', { desc = 'Find files' })
+vim.keymap.set('n', '<leader>ff', function()
+  builtin.find_files(ivy)
+end, { desc = 'Find files' })
+vim.keymap.set('n', '<leader><space>', function()
+  builtin.resume(ivy)
+end, { desc = 'Find files' })
 vim.keymap.set('n', '<leader>fr', function()
   builtin.oldfiles(ivy)
 end, { desc = 'Find Recent Files' })
@@ -29,7 +32,6 @@ telescope.setup {
     path_display = {
       'truncate',
     },
-    layout_strategy = 'vertical',
     mappings = {
       i = {
         ['<C-q>'] = actions.send_to_qflist,
@@ -69,10 +71,6 @@ telescope.setup {
       override_generic_sorter = false,
       override_file_sorter = true,
     },
-    frecency = {
-      show_filter_column = false,
-      matcher = 'fuzzy',
-    },
   },
   pickers = {
     oldfiles = {
@@ -82,4 +80,3 @@ telescope.setup {
 }
 
 telescope.load_extension('fzy_native')
-telescope.load_extension('frecency')

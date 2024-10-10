@@ -19,4 +19,3 @@ require('mini.indentscope').setup {
 }
 require('mini.icons').setup()
 MiniIcons.mock_nvim_web_devicons()
-require('mini.pick').setup()
