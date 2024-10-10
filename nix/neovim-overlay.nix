@@ -85,6 +85,9 @@ let
 
     # Flutter
     flutter-tools-nvim
+
+    # Autopairs
+    ultimate-autopair-nvim
   ];
 
   extraPackages = with pkgs; [
