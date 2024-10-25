@@ -88,6 +88,9 @@ let
 
     # Autopairs
     ultimate-autopair-nvim
+
+    # Dart
+    dart-vim-plugin
   ];
 
   extraPackages = with pkgs; [
