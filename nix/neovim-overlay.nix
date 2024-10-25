@@ -91,6 +91,9 @@ let
 
     # Dart
     dart-vim-plugin
+
+    # Lualine
+    lualine-nvim
   ];
 
   extraPackages = with pkgs; [

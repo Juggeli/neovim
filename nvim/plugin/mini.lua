@@ -3,7 +3,6 @@ if vim.g.did_load_mini_plugin then
 end
 vim.g.did_load_mini_plugin = true
 
-require('mini.statusline').setup()
 require('mini.git').setup()
 require('mini.diff').setup {
   view = {
