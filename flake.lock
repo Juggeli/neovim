@@ -138,11 +138,11 @@
     "mini": {
       "flake": false,
       "locked": {
-        "lastModified": 1729520225,
-        "narHash": "sha256-jpVh0bh0mjwKSRHuytORz062WmZakTv/BwIsKVb6KfQ=",
+        "lastModified": 1730193638,
+        "narHash": "sha256-mfWlv5BVC8FpDVfY5CxMMlXIDcKyL8jSi0QmxdCKNiY=",
         "owner": "echasnovski",
         "repo": "mini.nvim",
-        "rev": "92ff9f0a1291a1bddc8e5a8535dc02930d4d7203",
+        "rev": "0a8a1072137d916406507c941698a4bfa9dbbe7a",
         "type": "github"
       },
       "original": {
@@ -197,16 +197,16 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1729256560,
-        "narHash": "sha256-/uilDXvCIEs3C9l73JTACm4quuHUsIHcns1c+cHUJwA=",
+        "lastModified": 1730170245,
+        "narHash": "sha256-PRq4vJjDa+m1mNwkV9H7zVzMhuMqsHJrTGx0iJZ0e0w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "4c2fcb090b1f3e5b47eaa7bd33913b574a11e0a0",
+        "rev": "30c9efeef01e2ad4880bff6a01a61dd99536b3c9",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixos-unstable",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }

@@ -4,7 +4,9 @@ end
 vim.g.did_load_dashboard_plugin = true
 
 local builtin = require('telescope.builtin')
-local ivy = require('telescope.themes').get_ivy()
+local ivy = require('telescope.themes').get_ivy {
+  cwd_only = true,
+}
 
 local logo = [[
         ⢀⣴⡾⠃⠄⠄⠄⠄⠄⠈⠺⠟⠛⠛⠛⠛⠻⢿⣿⣿⣿⣿⣶⣤⡀  
@@ -36,7 +38,7 @@ local opts = {
     center = {
       {
         action = function()
-          builtin.find_files(ivy)
+          require('telescope').extensions.smart_open.smart_open(ivy)
         end,
         desc = ' Find File',
         icon = ' ',
@@ -47,14 +49,6 @@ local opts = {
         desc = ' New File',
         icon = ' ',
         key = 'n',
-      },
-      {
-        action = function()
-          builtin.oldfiles(ivy)
-        end,
-        desc = ' Recent Files',
-        icon = ' ',
-        key = 'r',
       },
       {
         action = function()

@@ -148,6 +148,7 @@ let
     '';
 
   # Add arguments to the Neovim wrapper script
+  libFile = if pkgs.stdenv.isLinux then "libsqlite3.so" else "libsqlite3.dylib";
   extraMakeWrapperArgs = builtins.concatStringsSep " " (
     # Set the NVIM_APPNAME environment variable
     (optional (
@@ -156,9 +157,9 @@ let
     # Add external packages to the PATH
     ++ (optional (externalPackages != [ ]) ''--prefix PATH : "${makeBinPath externalPackages}"'')
     # Set the LIBSQLITE_CLIB_PATH if sqlite is enabled
-    ++ (optional withSqlite ''--set LIBSQLITE_CLIB_PATH "${pkgs.sqlite.out}/lib/libsqlite3.so"'')
+    ++ (optional withSqlite ''--set LIBSQLITE_CLIB_PATH "${pkgs.sqlite.out}/lib/${libFile}"'')
     # Set the LIBSQLITE environment variable if sqlite is enabled
-    ++ (optional withSqlite ''--set LIBSQLITE "${pkgs.sqlite.out}/lib/libsqlite3.so"'')
+    ++ (optional withSqlite ''--set LIBSQLITE "${pkgs.sqlite.out}/lib/${libFile}"'')
   );
 
   luaPackages = neovim-unwrapped.lua.pkgs;

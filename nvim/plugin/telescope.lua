@@ -6,26 +6,29 @@ vim.g.did_load_telescope_plugin = true
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local builtin = require('telescope.builtin')
-local ivy = require('telescope.themes').get_ivy()
+local ivy = require('telescope.themes').get_ivy {
+  cwd_only = true,
+}
 
 vim.keymap.set('n', '<leader>ff', function()
-  builtin.find_files(ivy)
+  require('telescope').extensions.smart_open.smart_open(ivy)
 end, { desc = 'Find files' })
+
 vim.keymap.set('n', '<leader><space>', function()
   builtin.resume(ivy)
-end, { desc = 'Find files' })
-vim.keymap.set('n', '<leader>fr', function()
-  builtin.oldfiles(ivy)
-end, { desc = 'Find Recent Files' })
+end, { desc = 'Resume last telescope' })
+
 vim.keymap.set('n', '<leader>/', function()
   builtin.live_grep(ivy)
-end, { desc = 'Grep (Root Dir)' })
+end, { desc = 'Grep (root dir)' })
+
 vim.keymap.set('n', '<leader>fw', function()
   builtin.grep_string(ivy)
-end, { desc = 'Grep Current String' })
+end, { desc = 'Grep string under cursor' })
+
 vim.keymap.set('n', '<leader>fq', function()
   builtin.quickfix(ivy)
-end, { desc = 'Quick Fix List' })
+end, { desc = 'Quick fix list' })
 
 telescope.setup {
   defaults = {
@@ -80,3 +83,4 @@ telescope.setup {
 }
 
 telescope.load_extension('fzy_native')
+telescope.load_extension('smart_open')
