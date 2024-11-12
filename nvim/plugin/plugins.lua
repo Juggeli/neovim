@@ -16,3 +16,6 @@ require('auto-save').setup {
   debounce_delay = 60000,
 }
 require('ultimate-autopair').setup {}
+require('nvim-highlight-colors').setup {
+  render = 'virtual',
+}

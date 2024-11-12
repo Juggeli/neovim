@@ -99,6 +99,9 @@ let
 
     # Lualine
     lualine-nvim
+
+    # Colors
+    nvim-highlight-colors
   ];
 
   extraPackages = with pkgs; [
