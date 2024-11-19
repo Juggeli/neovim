@@ -1,3 +1,8 @@
+if vim.g.did_load_ai_plugin then
+  return
+end
+vim.g.did_load_ai_plugin = true
+
 local extras = require('mini.extra')
 require('mini.ai').setup {
   n_lines = 500,
