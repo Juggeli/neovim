@@ -10,7 +10,6 @@ require('mini.diff').setup {
     signs = { add = '▎', change = '▎', delete = '' },
   },
 }
-require('mini.tabline').setup()
 require('mini.comment').setup()
 require('mini.surround').setup()
 require('mini.indentscope').setup {

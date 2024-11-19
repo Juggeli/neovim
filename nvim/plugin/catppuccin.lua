@@ -10,8 +10,6 @@ require('catppuccin').setup {
       WinSeparator = { fg = colors.surface1 },
 
       MiniIndentscopeSymbol = { fg = colors.surface2 },
-      MiniTablineCurrent = { fg = colors.text, bg = colors.surface0, sp = colors.red, style = { 'bold' } },
-      MiniTablineModifiedCurrent = { fg = colors.green, bg = colors.surface0, style = { 'bold' } },
     }
   end,
   integrations = {

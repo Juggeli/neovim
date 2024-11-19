@@ -9,7 +9,7 @@ vim.g.did_load_plugins_plugin = true
 require('which-key').setup()
 require('dressing').setup()
 require('stay-centered').setup {
-  skip_filetypes = { 'minifiles' },
+  skip_filetypes = { 'minifiles', '' },
 }
 require('auto-save').setup {
   -- Save after minute of idle

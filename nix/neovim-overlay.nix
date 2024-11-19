@@ -102,6 +102,9 @@ let
 
     # Colors
     nvim-highlight-colors
+
+    # Buffer navigation
+    snipe-nvim
   ];
 
   extraPackages = with pkgs; [
