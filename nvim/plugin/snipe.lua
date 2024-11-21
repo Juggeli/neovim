@@ -4,5 +4,9 @@ end
 vim.g.did_load_snipe_plugin = true
 
 local snipe = require('snipe')
-snipe.setup()
+snipe.setup {
+  hints = {
+    dictionary = 'asdflewcmpghio',
+  },
+}
 vim.keymap.set('n', 'gb', snipe.open_buffer_menu)
