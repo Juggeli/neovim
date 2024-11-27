@@ -105,6 +105,9 @@ let
 
     # Buffer navigation
     snipe-nvim
+
+    # Search and replace
+    grug-far-nvim
   ];
 
   extraPackages = with pkgs; [
