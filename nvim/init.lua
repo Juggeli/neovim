@@ -4,7 +4,7 @@ local opt = vim.o
 local g = vim.g
 
 g.mapleader = ' '
-g.maplocalleader = ' '
+g.maplocalleader = ','
 
 opt.compatible = false
 
