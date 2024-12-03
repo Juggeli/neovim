@@ -147,7 +147,10 @@ keymap.set('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit All' })
 
 -- Show diagnostics
 keymap.set('n', '<leader>xx', function()
-  builtin.diagnostics(ivy)
+  local ivy_diagnostics = require('telescope.themes').get_ivy {
+    sort_by = 'severity',
+  }
+  builtin.diagnostics(ivy_diagnostics)
 end, { desc = 'Show Diagnostics' })
 
 keymap.set('n', '<leader>d', '<cmd>lua vim.diagnostic.open_float()<CR>', { desc = 'Show diagnostics float' })
