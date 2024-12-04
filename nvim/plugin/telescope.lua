@@ -48,6 +48,7 @@ telescope.setup {
         ['<C-q>'] = actions.send_to_qflist,
         ['<C-l>'] = actions.send_to_loclist,
         ['<esc>'] = actions.close,
+        ['<C-d>'] = require('telescope.actions').delete_buffer,
       },
       n = {
         q = actions.close,
