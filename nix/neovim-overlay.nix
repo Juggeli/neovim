@@ -103,9 +103,6 @@ let
     # Colors
     nvim-highlight-colors
 
-    # Buffer navigation
-    snipe-nvim
-
     # Search and replace
     grug-far-nvim
   ];

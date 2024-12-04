@@ -30,6 +30,14 @@ vim.keymap.set('n', '<leader>fq', function()
   builtin.quickfix(ivy)
 end, { desc = 'Quick fix list' })
 
+vim.keymap.set('n', '<leader><space>', function()
+  local buffers_ivy = require('telescope.themes').get_ivy {
+    sort_mru = true,
+    ignore_current_buffer = true,
+  }
+  builtin.buffers(buffers_ivy)
+end, { desc = 'List open buffers' })
+
 telescope.setup {
   defaults = {
     path_display = {
