@@ -3,32 +3,28 @@ if vim.g.did_load_copilot_plugin then
 end
 vim.g.did_load_copilot_plugin = true
 
+require('img-clip').setup {
+  default = {
+    embed_image_as_base64 = false,
+    prompt_for_file_name = false,
+    drag_and_drop = {
+      insert_mode = true,
+    },
+  },
+}
 require('copilot').setup {
   panel = {
     enabled = false,
   },
   suggestion = {
-    enabled = true,
-    auto_trigger = false,
-    hide_during_completion = true,
-    debounce = 75,
-    keymap = {
-      accept = '<C-y>',
-      accept_word = false,
-      accept_line = false,
-      next = false,
-      prev = false,
-      dismiss = '<C-d>',
-    },
+    enabled = false,
   },
 }
-
-vim.keymap.set('i', '<C-]>', function()
-  require('cmp').close()
-  require('copilot.suggestion').next()
-end, { desc = 'Show Next Copilot Suggestion' })
-
-vim.keymap.set('i', '<C-[>', function()
-  require('cmp').close()
-  require('copilot.suggestion').prev()
-end, { desc = 'Show Previous Copilot Suggestion' })
+require('render-markdown').setup {
+  file_types = { 'markdown', 'Avante' },
+}
+require('avante_lib').load()
+require('avante').setup {
+  provider = 'copilot',
+  auto_suggestions_provider = 'copilot',
+}

@@ -56,6 +56,7 @@ let
     plenary-nvim
     nvim-nio # for neotest
     FixCursorHold-nvim # for neotest
+    nui-nvim # for avante
     # ^ libraries that other plugins depend on
     which-key-nvim
 
@@ -85,8 +86,11 @@ let
     # Autosave
     auto-save-nvim
 
-    # Copilot
+    # Avante (copilot)
+    avante-nvim
     copilot-lua
+    img-clip-nvim
+    render-markdown-nvim
 
     # Flutter
     flutter-tools-nvim
