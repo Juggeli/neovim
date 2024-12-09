@@ -75,11 +75,14 @@ let
     conform-nvim
 
     # bleeding-edge plugins from flake inputs
-    (mkNvimPlugin inputs.stay-centered "stay-centered.nvim")
+    # (mkNvimPlugin inputs.example-nvim "example.nvim")
     # ^ bleeding-edge plugins from flake inputs
 
     # Mini
     mini-nvim
+
+    # Stay centered
+    stay-centered-nvim
 
     # Neotest
     neotest

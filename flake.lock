@@ -199,24 +199,7 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "gen-luarc": "gen-luarc",
-        "nixpkgs": "nixpkgs_2",
-        "stay-centered": "stay-centered"
-      }
-    },
-    "stay-centered": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1731449661,
-        "narHash": "sha256-TIiv0pwBkwn7n1JFVqgcruKZ69OdxdEId4ca+M5hZ9k=",
-        "owner": "arnamak",
-        "repo": "stay-centered.nvim",
-        "rev": "e1a63ccaf2584e97c0ef8e64f9654c9a80d983f6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "arnamak",
-        "repo": "stay-centered.nvim",
-        "type": "github"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {

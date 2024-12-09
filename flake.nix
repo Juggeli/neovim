@@ -8,10 +8,10 @@
 
     # Add bleeding-edge plugins here.
     # They can be updated with `nix flake update` (make sure to commit the generated flake.lock)
-    stay-centered = {
-      url = "github:arnamak/stay-centered.nvim";
-      flake = false;
-    };
+    # example-nvim = {
+    #   url = "github:user/example.nvim";
+    #   flake = false;
+    # };
   };
 
   outputs =
