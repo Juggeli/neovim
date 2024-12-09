@@ -104,7 +104,7 @@ let
     # Lualine
     lualine-nvim
 
-    # Colors
+    # Inline colors support
     nvim-highlight-colors
 
     # Search and replace
