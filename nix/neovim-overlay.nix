@@ -68,7 +68,6 @@ let
 
     # Fancy UI
     noice-nvim
-    nvim-notify
     dressing-nvim
 
     # Autoformat

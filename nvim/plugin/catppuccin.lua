@@ -13,7 +13,6 @@ require('catppuccin').setup {
   end,
   integrations = {
     noice = true,
-    notify = true,
     which_key = true,
     mini = {
       enabled = true,

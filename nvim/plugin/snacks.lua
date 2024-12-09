@@ -9,6 +9,7 @@ local ivy = require('telescope.themes').get_ivy {
 }
 
 require('snacks').setup {
+  notifier = { enabled = true },
   dashboard = {
     preset = {
       keys = {
