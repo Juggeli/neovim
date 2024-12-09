@@ -14,7 +14,7 @@ vim.keymap.set('n', '<leader>ff', function()
   require('telescope').extensions.smart_open.smart_open(ivy)
 end, { desc = 'Find files' })
 
-vim.keymap.set('n', '<leader>r', function()
+vim.keymap.set('n', '<leader>fr', function()
   builtin.resume(ivy)
 end, { desc = 'Resume last telescope' })
 
