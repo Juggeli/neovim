@@ -3,13 +3,6 @@ if vim.g.did_load_mini_plugin then
 end
 vim.g.did_load_mini_plugin = true
 
-require('mini.git').setup()
-require('mini.diff').setup {
-  view = {
-    style = 'sign',
-    signs = { add = '▎', change = '▎', delete = '' },
-  },
-}
 require('mini.comment').setup()
 require('mini.surround').setup()
 require('mini.indentscope').setup {

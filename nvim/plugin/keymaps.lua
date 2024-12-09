@@ -85,16 +85,6 @@ keymap.set('n', ']w', function()
     severity = severity.WARN,
   }
 end, { noremap = true, silent = true, desc = 'Next warning' })
-keymap.set('n', '[h', function()
-  diagnostic.goto_prev {
-    severity = severity.HINT,
-  }
-end, { noremap = true, silent = true, desc = 'Previous Hint' })
-keymap.set('n', ']h', function()
-  diagnostic.goto_next {
-    severity = severity.HINT,
-  }
-end, { noremap = true, silent = true, desc = 'Next Hint' })
 
 -- Toggle options
 local function toggle_spell_check()

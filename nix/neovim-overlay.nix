@@ -109,6 +109,9 @@ let
 
     # Search and replace
     grug-far-nvim
+
+    # Git
+    gitsigns-nvim
   ];
 
   extraPackages = with pkgs; [
