@@ -63,8 +63,8 @@ let
     # Theme
     catppuccin-nvim
 
-    # Dashboard
-    dashboard-nvim
+    # Snacks
+    snacks-nvim
 
     # Fancy UI
     noice-nvim
