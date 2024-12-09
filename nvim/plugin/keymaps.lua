@@ -8,12 +8,6 @@ local diagnostic = vim.diagnostic
 local builtin = require('telescope.builtin')
 local ivy = require('telescope.themes').get_ivy()
 
--- better up/down
-keymap.set({ 'n', 'x' }, 'j', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
-keymap.set({ 'n', 'x' }, '<Down>', "v:count == 0 ? 'gj' : 'j'", { desc = 'Down', expr = true, silent = true })
-keymap.set({ 'n', 'x' }, 'k', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', expr = true, silent = true })
-keymap.set({ 'n', 'x' }, '<Up>', "v:count == 0 ? 'gk' : 'k'", { desc = 'Up', expr = true, silent = true })
-
 -- Move to window using the <ctrl> hjkl keys
 keymap.set('n', '<C-h>', '<C-w>h', { desc = 'Go to Left Window', remap = true })
 keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Go to Lower Window', remap = true })
