@@ -76,8 +76,10 @@ let
 
     # bleeding-edge plugins from flake inputs
     (mkNvimPlugin inputs.stay-centered "stay-centered.nvim")
-    (mkNvimPlugin inputs.mini "mini.nvim")
     # ^ bleeding-edge plugins from flake inputs
+
+    # Mini
+    mini-nvim
 
     # Neotest
     neotest

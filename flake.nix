@@ -12,11 +12,6 @@
       url = "github:arnamak/stay-centered.nvim";
       flake = false;
     };
-
-    mini = {
-      url = "github:echasnovski/mini.nvim";
-      flake = false;
-    };
   };
 
   outputs =

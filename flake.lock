@@ -135,22 +135,6 @@
         "type": "github"
       }
     },
-    "mini": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1733240465,
-        "narHash": "sha256-sQmKO8t/REtucqpxwdVW3x0Uq/c0CdUhZgaNqbT2xno=",
-        "owner": "echasnovski",
-        "repo": "mini.nvim",
-        "rev": "690a3b4c78c4956f7ecf770124b522d32084b872",
-        "type": "github"
-      },
-      "original": {
-        "owner": "echasnovski",
-        "repo": "mini.nvim",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1718714799,
@@ -215,7 +199,6 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "gen-luarc": "gen-luarc",
-        "mini": "mini",
         "nixpkgs": "nixpkgs_2",
         "stay-centered": "stay-centered"
       }
