@@ -12,6 +12,10 @@
     #   url = "github:user/example.nvim";
     #   flake = false;
     # };
+
+    blink = {
+      url = "github:Saghen/blink.cmp";
+    };
   };
 
   outputs =

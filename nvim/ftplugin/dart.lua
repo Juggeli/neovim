@@ -3,7 +3,11 @@ if vim.fn.executable('dart') ~= 1 then
   return
 end
 
-require('flutter-tools').setup {}
+require('flutter-tools').setup {
+  lsp = {
+    capabilities = require('user.lsp').make_client_capabilities(),
+  },
+}
 
 vim.keymap.set('n', '<leader>rr', '<cmd>FlutterRun<cr>', { desc = 'Run flutter app' })
 vim.keymap.set('n', '<leader>rR', '<cmd>FlutterRestart<cr>', { desc = 'Restart flutter app' })

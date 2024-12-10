@@ -3,124 +3,50 @@ if vim.g.did_load_completion_plugin then
 end
 vim.g.did_load_completion_plugin = true
 
-local cmp = require('cmp')
-local lspkind = require('lspkind')
-local luasnip = require('luasnip')
+require('blink.cmp').setup {
+  -- 'default' for mappings similar to built-in completion
+  -- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+  -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+  -- see the "default configuration" section below for full documentation on how to define
+  -- your own keymap.
+  keymap = { preset = 'default' },
 
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-
-cmp.setup {
-  completion = {
-    completeopt = 'menu,menuone,noinsert',
+  appearance = {
+    -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+    -- Useful for when your theme doesn't support blink.cmp
+    -- will be removed in a future release
+    use_nvim_cmp_as_default = true,
+    -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+    -- Adjusts spacing to ensure icons are aligned
+    nerd_font_variant = 'mono',
   },
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-  formatting = {
-    format = lspkind.cmp_format {
-      mode = 'symbol_text',
-      with_text = true,
-      maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-      ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
-      menu = {
-        buffer = '[BUF]',
-        nvim_lsp = '[LSP]',
-        nvim_lsp_signature_help = '[LSP]',
-        nvim_lsp_document_symbol = '[LSP]',
-        nvim_lua = '[API]',
-        path = '[PATH]',
-        luasnip = '[SNIP]',
-      },
+  -- default list of enabled providers defined so that you can extend it
+  -- elsewhere in your config, without redefining it, via `opts_extend`
+  sources = {
+    completion = {
+      enabled_providers = { 'lsp', 'path', 'luasnip', 'buffer' },
     },
   },
-  snippet = {
-    expand = function(args)
-      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+
+  snippets = {
+    expand = function(snippet)
+      require('luasnip').lsp_expand(snippet)
+    end,
+    active = function(filter)
+      if filter and filter.direction then
+        return require('luasnip').jumpable(filter.direction)
+      end
+      return require('luasnip').in_snippet()
+    end,
+    jump = function(direction)
+      require('luasnip').jump(direction)
     end,
   },
-  mapping = {
-    -- Select the [n]ext item
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    -- Select the [p]revious item
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
 
-    -- Scroll the documentation window [b]ack / [f]orward
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  -- experimental auto-brackets support
+  -- completion = { accept = { auto_brackets = { enabled = true } } }
 
-    -- Accept ([y]es) the completion.
-    --  This will auto-import if your LSP supports it.
-    --  This will expand snippets if the LSP sent a snippet.
-    ['<C-y>'] = cmp.mapping.confirm { select = true },
-
-    -- Think of <c-l> as moving to the right of your snippet expansion.
-    --  So if you have a snippet that's like:
-    --  function $name($args)
-    --    $body
-    --  end
-    --
-    -- <c-l> will move you to the right of each of the expansion locations.
-    -- <c-h> is similar, except moving you backwards.
-    ['<C-l>'] = cmp.mapping(function()
-      if luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
-      end
-    end, { 'i', 's' }),
-    ['<C-h>'] = cmp.mapping(function()
-      if luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
-      end
-    end, { 'i', 's' }),
-  },
-  sources = cmp.config.sources {
-    -- The insertion order influences the priority of the sources
-    { name = 'nvim_lsp' },
-    -- { name = 'nvim_lsp_signature_help' },
-    { name = 'buffer', keyword_length = 4 },
-    { name = 'path', keyword_length = 4 },
-  },
-  enabled = function()
-    return vim.bo[0].buftype ~= 'prompt'
-  end,
-  experimental = {
-    native_menu = false,
-    ghost_text = true,
-  },
-  performance = {
-    debounce = 0, -- default is 60ms
-    throttle = 0, -- default is 30ms
-  },
+  -- experimental signature help support
+  signature = { enabled = true },
 }
-
-cmp.setup.filetype('lua', {
-  sources = cmp.config.sources {
-    { name = 'nvim_lua' },
-    { name = 'nvim_lsp' },
-    { name = 'path' },
-  },
-})
-
--- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'nvim_lsp_document_symbol', keyword_length = 3 },
-    { name = 'buffer' },
-    { name = 'cmdline_history' },
-  },
-  view = {
-    entries = { name = 'wildmenu', separator = '|' },
-  },
-})
-
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources {
-    { name = 'cmdline' },
-    { name = 'cmdline_history' },
-    { name = 'path' },
-  },
-})
