@@ -288,7 +288,8 @@
         "blink": "blink",
         "flake-utils": "flake-utils",
         "gen-luarc": "gen-luarc",
-        "nixpkgs": "nixpkgs_3"
+        "nixpkgs": "nixpkgs_3",
+        "snacks": "snacks"
       }
     },
     "rust-analyzer-src": {
@@ -305,6 +306,22 @@
         "owner": "rust-lang",
         "ref": "nightly",
         "repo": "rust-analyzer",
+        "type": "github"
+      }
+    },
+    "snacks": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1734008124,
+        "narHash": "sha256-szno2o0qhclp/uVqSME0ssSDORwLkpHWqom27EvDklU=",
+        "owner": "folke",
+        "repo": "snacks.nvim",
+        "rev": "8a98e92dc51cea9add566fe00d9f8cb044bfd988",
+        "type": "github"
+      },
+      "original": {
+        "owner": "folke",
+        "repo": "snacks.nvim",
         "type": "github"
       }
     },

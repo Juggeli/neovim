@@ -66,7 +66,7 @@ let
     conform-nvim
 
     # bleeding-edge plugins from flake inputs
-    # (mkNvimPlugin inputs.example-nvim "example.nvim")
+    (mkNvimPlugin inputs.snacks "snacks.nvim")
     # ^ bleeding-edge plugins from flake inputs
 
     # Mini

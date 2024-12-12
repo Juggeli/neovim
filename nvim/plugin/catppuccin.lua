@@ -8,7 +8,8 @@ require('catppuccin').setup {
     return {
       -- Set a bit brighter color for window separator
       WinSeparator = { fg = colors.surface1 },
-      MiniIndentscopeSymbol = { fg = colors.surface2 },
+      SnacksIndent = { fg = colors.surface1 },
+      SnacksIndentScope = { fg = colors.overlay1 },
     }
   end,
   integrations = {

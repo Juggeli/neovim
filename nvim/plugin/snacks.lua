@@ -12,6 +12,10 @@ require('snacks').setup {
   notifier = { enabled = true },
   bigfile = { enabled = true },
   words = { enabled = true },
+  indent = { enabled = true },
+  input = { enabled = true },
+  scroll = { enabled = true },
+  statuscolumn = { enabled = false },
   dashboard = {
     preset = {
       keys = {
