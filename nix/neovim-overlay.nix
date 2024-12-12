@@ -117,6 +117,8 @@ let
     ripgrep # for telescope live_grep
     stylua # lua formatting
     nixfmt-rfc-style # nix formatting
+    fd # for telescope
+    ast-grep # for grug-far
   ];
 in
 {
