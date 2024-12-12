@@ -14,7 +14,7 @@ require('snacks').setup {
   words = { enabled = true },
   indent = { enabled = true },
   input = { enabled = true },
-  scroll = { enabled = true },
+  scroll = { enabled = false },
   statuscolumn = { enabled = false },
   dashboard = {
     preset = {
