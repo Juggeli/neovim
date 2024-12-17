@@ -12,10 +12,12 @@ neotest.setup {
 }
 
 vim.keymap.set('n', '<leader>tt', function()
+  vim.cmd('write')
   neotest.run.run()
 end, { desc = 'Run Nearest Test' })
 
 vim.keymap.set('n', '<leader>tf', function()
+  vim.cmd('write')
   neotest.run.run(vim.fn.expand('%'))
 end, { desc = 'Run All Tests in File' })
 
