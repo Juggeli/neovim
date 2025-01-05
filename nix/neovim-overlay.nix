@@ -66,7 +66,7 @@ let
     conform-nvim
 
     # bleeding-edge plugins from flake inputs
-    (mkNvimPlugin inputs.snacks "snacks.nvim")
+    # (mkNvimPlugin inputs.snacks "snacks.nvim")
     # ^ bleeding-edge plugins from flake inputs
 
     # Mini
@@ -108,6 +108,8 @@ let
 
     # Git
     gitsigns-nvim
+
+    snacks-nvim
   ];
 
   extraPackages = with pkgs; [

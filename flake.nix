@@ -8,10 +8,10 @@
 
     # Add bleeding-edge plugins here.
     # They can be updated with `nix flake update` (make sure to commit the generated flake.lock)
-    snacks = {
-      url = "github:folke/snacks.nvim";
-      flake = false;
-    };
+    # snacks = {
+    #   url = "github:folke/snacks.nvim";
+    #   flake = false;
+    # };
 
     blink = {
       url = "github:Saghen/blink.cmp";
