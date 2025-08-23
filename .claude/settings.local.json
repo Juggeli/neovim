@@ -10,7 +10,8 @@
       "Bash(nix build:*)",
       "Bash(./result/bin/nvim --headless -c \"lua print(''Blink available:'', pcall(require, ''blink.cmp''))\" -c \"qa\")",
       "Bash(nix develop:*)",
-      "Bash(./result/bin/nvim:*)"
+      "Bash(./result/bin/nvim:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
