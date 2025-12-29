@@ -73,10 +73,6 @@
             neotest
             neotest-dart
             auto-save-nvim
-            avante-nvim
-            copilot-lua
-            img-clip-nvim
-            render-markdown-nvim
             flutter-tools-nvim
             dart-vim-plugin
             ultimate-autopair-nvim
