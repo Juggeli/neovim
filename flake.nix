@@ -12,7 +12,7 @@
       luaPath = "${./nvim}";
       forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
       extra_pkg_config = {
-        # allowUnfree = true;
+        allowUnfree = true;
       };
       dependencyOverlays = [ ];
 
@@ -25,7 +25,7 @@
             # Tools
             ripgrep
             stylua
-            nixfmt-rfc-style
+            nixfmt
             fd
             ast-grep
             sqlite
@@ -70,8 +70,6 @@
             
             # Other utilities
             stay-centered-nvim
-            neotest
-            neotest-dart
             auto-save-nvim
             flutter-tools-nvim
             dart-vim-plugin
