@@ -20,7 +20,6 @@ require('catppuccin').setup {
     },
     blink_cmp = true,
     grug_far = true,
-    neotest = true,
     snacks = true,
   },
 }
