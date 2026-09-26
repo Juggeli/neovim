@@ -88,8 +88,8 @@
 
         environmentVariables = {
           general = {
-            LIBSQLITE = "${pkgs.sqlite.out}/lib/libsqlite3${if pkgs.stdenv.isLinux then ".so" else ".dylib"}";
-            LIBSQLITE_CLIB_PATH = "${pkgs.sqlite.out}/lib/libsqlite3${if pkgs.stdenv.isLinux then ".so" else ".dylib"}";
+            LIBSQLITE = "${pkgs.sqlite.out}/lib/libsqlite3${if pkgs.stdenv.hostPlatform.isLinux then ".so" else ".dylib"}";
+            LIBSQLITE_CLIB_PATH = "${pkgs.sqlite.out}/lib/libsqlite3${if pkgs.stdenv.hostPlatform.isLinux then ".so" else ".dylib"}";
           };
         };
 
